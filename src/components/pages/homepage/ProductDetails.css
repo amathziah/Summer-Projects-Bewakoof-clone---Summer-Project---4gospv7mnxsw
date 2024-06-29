@@ -1,0 +1,160 @@
+/* ProductDetails.css */
+
+/* Container styles */
+.product-details-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.shadow-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Flex layout for main content */
+.flex {
+    display: flex;
+}
+
+/* Left column for product images */
+.product-images-container {
+    width: 20%;
+    margin-right: 20px;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.product-image.selected {
+    border: 2px solid #3182ce;
+}
+
+/* Right column for product details */
+.product-details-content {
+    width: 80%;
+    padding: 20px;
+    background-color: #f7fafc;
+    border-radius: 8px;
+}
+
+.product-main-image {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.product-info {
+    font-size: 16px;
+    color: #333;
+}
+
+.product-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-brand {
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-subcategory {
+    margin-bottom: 5px;
+}
+
+.product-ratings {
+    margin-bottom: 5px;
+}
+
+.product-sizes {
+    margin-bottom: 10px;
+}
+
+.add-to-cart-button {
+    background-color: #3182ce;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+    background-color: #2764a1;
+}
+
+/* Loading overlay styles */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white overlay */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.spinner {
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-top-color: #3182ce;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+.loading-text {
+    font-size: 18px;
+    color: #666;
+    animation: fadeInOut 1.5s infinite;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

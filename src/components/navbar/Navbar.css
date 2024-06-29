@@ -1,0 +1,130 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color:#eae5cf;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-logo {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    border: 2px solid black;
+}
+
+.navbar-logo img {
+    transition: opacity 0.3s ease; 
+}
+
+.navbar-logo:hover img {
+    opacity: 0.7; 
+}
+
+.navbar-auth button {
+    background-color: transparent;
+    border: 2px solid black;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.navbar-auth button:hover {
+    background-color: black;
+    color:white;
+}
+
+.navbar-section {
+    display: flex;
+    gap: 40px; 
+    margin-right: auto; 
+    margin-left: 20px;
+}
+
+.navbar-section button {
+    background-color: transparent;
+    border: 2px solid black;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.navbar-section button:hover {
+    background-color: black;
+    color: white;
+}
+
+.navbar-search {
+    flex-grow: 1; 
+    max-width: 300px;
+    margin: 0 20px; 
+}
+
+.navbar-search input {
+    width: 100%; 
+    padding: 5px 10px;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-right: none; 
+    border-radius: 5px 0 0 5px; 
+    outline: none; 
+}
+
+.navbar-search button {
+    padding: 5px 10px;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-left: none; 
+    border-radius: 0 5px 5px 0; 
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.navbar-search button:hover {
+    background-color: white;
+    color: black;
+}
+
+.navbar-cart {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; 
+}
+
+.cart-icon {
+    font-size: 1.5rem;
+    margin-right: 5px;
+}
+
+.cart-count {
+    font-size: 1rem;
+    color: black;
+}
+.navbar:hover {
+    background-color: #8fc3af; 
+    transition: background-color 9s ease, color 0.3s ease; 
+  }
+  .navbar-section a {
+    background-color: transparent;
+    border: 2px solid black;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.navbar-section a:hover {
+    background-color: black;
+    color: white;
+}

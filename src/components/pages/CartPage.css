@@ -1,0 +1,134 @@
+/* CartPage.css */
+
+.cart-items {
+    margin-top: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item .flex {
+    flex: 1;
+}
+
+.cart-item img {
+    width: 80px; /* Adjust size as needed */
+    height: 80px; /* Adjust size as needed */
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.cart-item .ml-4 {
+    margin-left: 20px;
+}
+
+.cart-item p {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.text-gray-700 {
+    color: #4a5568; /* Adjust color as needed */
+}
+
+.text-lg {
+    font-size: 18px;
+}
+
+.text-xl {
+    font-size: 20px;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.mb-4 {
+    margin-bottom: 16px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-gray-500 {
+    color: #718096; /* Adjust color as needed */
+}
+
+.text-red-500 {
+    color: #f56565; /* Adjust color as needed */
+}
+
+.max-w-5xl {
+    max-width: 1280px; /* Adjust max width as needed */
+}
+
+.bg-white {
+    background-color: #ffffff; /* Adjust background color as needed */
+}
+
+.rounded-lg {
+    border-radius: 8px; /* Adjust border radius as needed */
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Adjust shadow as needed */
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.my-4 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.p-6 {
+    padding: 24px; /* Adjust padding as needed */
+}
+
+.mb-4 {
+    margin-bottom: 16px; /* Adjust margin bottom as needed */
+}
+
+.border-b {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #e2e8f0; /* Adjust border color as needed */
+}
+
+.border-gray-200 {
+    border-color: #edf2f7; /* Adjust border color as needed */
+}
+
+.w-20 {
+    width: 80px; /* Adjust width as needed */
+}
+
+.h-20 {
+    height: 80px; /* Adjust height as needed */
+}
+
+.object-cover {
+    object-fit: cover;
+}
+
+.rounded {
+    border-radius: 4px; /* Adjust border radius as needed */
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.ml-4 {
+    margin-left: 20px; /* Adjust margin left as needed */
+}
