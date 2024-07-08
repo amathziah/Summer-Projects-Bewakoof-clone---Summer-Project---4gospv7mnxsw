@@ -223,57 +223,95 @@ const fetchUser = async (req, res, next) => {
     return res.status(401).send({ errors: "Please authenticate using a valid token2" });
   }
 };
-
-// creating addtocart
-// creating addtocart
 app.post('/addtocart', fetchUser, async (req, res) => {
   const { productId, quantity } = req.body;
 
   if (!productId || !quantity) {
-    return res.status(400).send({ errors: "Product ID and quantity are required" });
+      return res.status(400).send({ errors: "Product ID and quantity are required" });
   }
 
   try {
+      let user = await User.findById(req.user);
 
-    let user = await User.findById(req.user);
+      if (!user) {
+          return res.status(404).send({ errors: "User not found" });
+      }
 
-    if (!user) {
-      return res.status(404).send({ errors: "User not found" });
-    }
+      // Check if the product already exists in the cart
+      const productIndex = user.cartData.findIndex(item => item.productId.toString() === productId);
 
-    // Check if the product already exists in the cart
-    const productIndex = user.cartData.findIndex(item => item.productId.toString() === productId);
+      if (productIndex > -1) {
+          // If product exists, update the quantity
+          user.cartData[productIndex].quantity += quantity;
+      } else {
+          // If product does not exist, add it to the cart
+          user.cartData.push({ productId, quantity });
+      }
 
-    if (productIndex > -1) {
-      // If product exists, update the quantity
-      user.cartData[productIndex].quantity = quantity;
-    } else {
-      // If product does not exist, add it to the cart
-      user.cartData.push({ productId, quantity });
-    }
+      // Save the updated user data
+      await user.save();
 
-    // Save the updated user data
-    await user.save();
-
-    res.json({ success: true, cartData: user.cartData });
+      res.json({ success: true, cartData: user.cartData });
   } catch (error) {
-    console.error("Error adding to cart:", error);
-    res.status(500).json({ success: false, error: "Failed to add to cart" });
+      console.error("Error adding to cart:", error);
+      res.status(500).json({ success: false, error: "Failed to add to cart" });
   }
 });
+app.post('/updatecart', fetchUser, async (req, res) => {
+  const { productId, quantity } = req.body;
 
+  if (!productId || !quantity) {
+      return res.status(400).send({ errors: "Product ID and quantity are required" });
+  }
+
+  try {
+      let user = await User.findById(req.user);
+
+      if (!user) {
+          return res.status(404).send({ errors: "User not found" });
+      }
+
+      // Check if the product already exists in the cart
+      const productIndex = user.cartData.findIndex(item => item.productId.toString() === productId);
+
+      if (productIndex > -1) {
+          // If product exists, update the quantity
+          user.cartData[productIndex].quantity += quantity;
+
+          // If quantity is zero or less, remove the product from the cart
+          if (user.cartData[productIndex].quantity <= 0) {
+              user.cartData.splice(productIndex, 1);
+          }
+      } else {
+          // If product does not exist in the cart, return an error
+          return res.status(400).json({ errors: "Product not found in the cart" });
+      }
+
+      // Save the updated user data
+      await user.save();
+
+      res.json({ success: true, cartData: user.cartData });
+  } catch (error) {
+      console.error("Error updating cart:", error);
+      res.status(500).json({ success: false, error: "Failed to update cart" });
+  }
+});
 app.get('/cart', fetchUser, async (req, res) => {
   try {
       const user = await User.findById(req.user);
+
       if (!user) {
           return res.status(404).json({ errors: "User not found" });
       }
+
       res.json({ success: true, cartData: user.cartData });
   } catch (error) {
       console.error("Error fetching cart data:", error);
       res.status(500).json({ success: false, error: "Failed to fetch cart data" });
   }
 });
+
+
 
 // Start server
 app.listen(port, () => {

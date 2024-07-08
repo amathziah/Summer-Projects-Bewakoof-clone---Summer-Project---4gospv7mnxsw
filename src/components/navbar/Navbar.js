@@ -62,7 +62,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                         Logout
                     </button>
                 ) : (
-                    <Link to="/login" className="rounded-md bg-red-500 text-black px-4 py-2">
+                    <Link to="/login" className="loginbutton">
                         Login
                     </Link>
                 )}

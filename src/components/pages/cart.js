@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./CartPage.css"
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [productDetails, setProductDetails] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [productDetails, setProductDetails] = useState({}); // State to store product details
-    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         const fetchCartData = async () => {
             try {
                 const authToken = localStorage.getItem('token');
                 if (!authToken) {
-                    setError('No auth token found in localStorage');
-                    setIsLoading(false);
+                    console.error('No auth token found in localStorage');
                     return;
                 }
 
@@ -25,15 +23,24 @@ const CartPage = () => {
                     }
                 });
 
-                if (response.data.success) {
-                    setCartItems(response.data.cartData);
+                const { cartData } = response.data;
+                setCartItems(cartData);
 
-                    // Fetch details for each product in cart
-                    const productIds = response.data.cartData.map(item => item.productId);
-                    await fetchProductDetails(productIds);
-                } else {
-                    setError('Failed to fetch cart data');
-                }
+                const productDetailsPromises = cartData.map(item =>
+                    fetch(`https://academics.newtonschool.co/api/v1/ecommerce/product/${item.productId}`, {
+                        headers: {
+                            'projectId': 'f104bi07c490'
+                        }
+                    }).then(response => response.json())
+                );
+
+                const productDetailsResults = await Promise.all(productDetailsPromises);
+                const newProductDetails = productDetailsResults.reduce((acc, product) => {
+                    acc[product.data._id] = product.data;
+                    return acc;
+                }, {});
+
+                setProductDetails(newProductDetails);
                 setIsLoading(false);
             } catch (error) {
                 console.error('Error fetching cart data:', error);
@@ -41,84 +48,76 @@ const CartPage = () => {
                 setIsLoading(false);
             }
         };
-        const handleAddToCart = async (itemId) => {
-            try {
-                const authToken = localStorage.getItem('token');
-                if (!authToken) {
-                    console.error('No auth token found in localStorage');
-                    return;
-                }
-    
-                const response = await fetch('http://localhost:4000/addtocart', {
-                    method: "POST",
-                    headers: {
-                        'Accept': 'application/json',
-                        'auth-token': authToken,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ productId: itemId, quantity }) // pass productId and quantity
-                });
-    
-                const data = await response.json();
-    
-                if (!response.ok) {
-                    throw new Error(data.errors || 'Failed to add to cart');
-                }
-    
-                // Handle success or update UI as needed
-            } catch (error) {
-                console.error('Error adding product to cart:', error);
-                // Handle error or display error message
-            }
-        };
-
-        const fetchProductDetails = async (productIds) => {
-            try {
-                const detailsPromises = productIds.map(productId =>
-                    axios.get(`https://academics.newtonschool.co/api/v1/ecommerce/product/${productId}`, {
-                        headers: {
-                            'projectId': 'f104bi07c490'
-                        }
-                    })
-                );
-
-                const detailsResponses = await Promise.all(detailsPromises);
-                const productDetailsData = detailsResponses.map(res => res.data.data);
-
-                // Create a mapping of productId to its details
-                const detailsMap = productDetailsData.reduce((acc, product) => {
-                    acc[product._id] = product;
-                    return acc;
-                }, {});
-
-                setProductDetails(detailsMap);
-            } catch (error) {
-                console.error('Error fetching product details:', error);
-                // Handle error fetching product details
-            }
-        };
 
         fetchCartData();
     }, []);
 
-    const handleIncreaseQuantity = (itemId) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.productId === itemId) {
-                return { ...item, quantity: item.quantity + 1 };
+    const handleIncreaseQuantity = async (itemId) => {
+        try {
+            const authToken = localStorage.getItem('token');
+            if (!authToken) {
+                console.error('No auth token found in localStorage');
+                return;
             }
-            return item;
-        });
-        setCartItems(updatedCartItems);
+
+            const response = await axios.post('http://localhost:4000/updatecart', {
+                productId: itemId,
+                quantity: 1 // Increment by 1
+            }, {
+                headers: {
+                    'auth-token': authToken,
+                }
+            });
+
+            if (response.data.success) {
+                setCartItems(cartItems.map(item =>
+                    item.productId === itemId ? { ...item, quantity: item.quantity + 1 } : item
+                ));
+            } else {
+                console.error('Failed to update cart');
+            }
+        } catch (error) {
+            console.error('Error updating cart:', error);
+        }
     };
 
-    const handleDecreaseQuantity = (itemId) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.productId === itemId && item.quantity > 1) {
-                return { ...item, quantity: item.quantity - 1 };
+    const handleDecreaseQuantity = async (itemId) => {
+        try {
+            const authToken = localStorage.getItem('token');
+            if (!authToken) {
+                console.error('No auth token found in localStorage');
+                return;
             }
-            return item;
-        });
-        setCartItems(updatedCartItems.filter(item => item.quantity > 0));
+
+            const response = await axios.post('http://localhost:4000/updatecart', {
+                productId: itemId,
+                quantity: -1 // Decrement by 1
+            }, {
+                headers: {
+                    'auth-token': authToken,
+                }
+            });
+
+            if (response.data.success) {
+                setCartItems(cartItems.map(item =>
+                    item.productId === itemId ? { ...item, quantity: item.quantity - 1 } : item
+                ).filter(item => item.quantity > 0));
+            } else {
+                console.error('Failed to update cart');
+            }
+        } catch (error) {
+            console.error('Error updating cart:', error);
+        }
+    };
+
+    const getTotalCartCost = () => {
+        return cartItems.reduce((total, item) => {
+            const product = productDetails[item.productId];
+            if (product) {
+                return total + (product.price * item.quantity);
+            }
+            return total;
+        }, 0);
     };
 
     if (isLoading) {
@@ -135,45 +134,45 @@ const CartPage = () => {
             {cartItems.length === 0 ? (
                 <p className="text-center text-gray-500">Your cart is empty.</p>
             ) : (
-                <div className="cart-items">
-                    {cartItems.map((item, index) => (
-                        <div key={index} className="cart-item mb-4 p-4 border-b border-gray-200">
-                            <div className="flex items-center">
-                                {productDetails[item.productId] && (
-                                    <img
-                                        className="w-20 h-20 object-cover rounded"
-                                        src={productDetails[item.productId].images[0]} // Assuming first image
-                                        alt={productDetails[item.productId].name}
-                                    />
-                                )}
-                                <div className="ml-4">
-                                    <p className="text-lg font-semibold">{item.productId}</p>
+                <div>
+                    <div className="cart-items">
+                        {cartItems.map((item, index) => (
+                            <div key={index} className="cart-item mb-4 p-4 border-b border-gray-200">
+                                <div className="flex items-center">
                                     {productDetails[item.productId] && (
-                                        <div>
-                                            <p className="text-gray-700">Name: {productDetails[item.productId].name}</p>
-                                            <p className="text-gray-700">Brand: {productDetails[item.productId].brand}</p>
-                                            <p className="text-gray-700">Price: {productDetails[item.productId].price} INR</p>
-                                        </div>
+                                        <img
+                                            className="w-20 h-20 object-cover rounded"
+                                            src={productDetails[item.productId].images[0]}
+                                            alt={productDetails[item.productId].name}
+                                        />
                                     )}
-                                    <div className="flex items-center mt-2">
-                                        <button
-                                            onClick={() => handleDecreaseQuantity(item.productId)}
-                                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-md mr-2"
-                                        >
-                                            -
-                                        </button>
-                                        <p className="text-gray-700">Quantity: {item.quantity}</p>
-                                        <button
-                                            onClick={() => handleIncreaseQuantity(item.productId)}
-                                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-md ml-2"
-                                        >
-                                            +
-                                        </button>
+                                    <div className="ml-4">
+                                        <p className="text-lg font-semibold">{productDetails[item.productId]?.name}</p>
+                                        <p className="text-gray-700">Brand: {productDetails[item.productId]?.brand}</p>
+                                        <p className="text-gray-700">Price: {productDetails[item.productId]?.price} INR</p>
+                                        <div className="flex items-center mt-2">
+                                            <button
+                                                onClick={() => handleDecreaseQuantity(item.productId)}
+                                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-md mr-2"
+                                            >
+                                                -
+                                            </button>
+                                            <p className="text-gray-700">Quantity: {item.quantity}</p>
+                                            <button
+                                                onClick={() => handleIncreaseQuantity(item.productId)}
+                                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-md ml-2"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <div className="total-cart">
+                        <h3 className="text-xl font-semibold mt-4">Total Cart Cost: {getTotalCartCost()} INR</h3>
+                    </div>
                 </div>
             )}
         </div>
@@ -181,5 +180,7 @@ const CartPage = () => {
 };
 
 export default CartPage;
+
+
 
 

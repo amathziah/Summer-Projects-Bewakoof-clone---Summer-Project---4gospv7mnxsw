@@ -12,6 +12,7 @@ const ProductDetails = () => {
     const [error, setError] = useState(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1); // default quantity to 1
+    const [cartMessage, setCartMessage] = useState(''); // State to hold the cart message
 
     useEffect(() => {
         async function fetchProductDetails() {
@@ -80,10 +81,14 @@ const ProductDetails = () => {
                 throw new Error(data.errors || 'Failed to add to cart');
             }
 
-            // Handle success or update UI as needed
+            // Set cart message on success
+            setCartMessage('Item added to cart successfully!');
+            setTimeout(() => setCartMessage(''), 3000); // Clear message after 3 seconds
         } catch (error) {
             console.error('Error adding product to cart:', error);
             // Handle error or display error message
+            setCartMessage('Error adding item to cart. Please try again.');
+            setTimeout(() => setCartMessage(''), 3000); // Clear message after 3 seconds
         }
     };
 
@@ -123,7 +128,12 @@ const ProductDetails = () => {
                         <p className="text-gray-900 text-xl font-semibold mb-4">{product.price} INR</p>
                         <p className="text-gray-700 text-base">Ratings: {Math.round(product.ratings)}</p>
                         <p className="text-gray-700 text-base">
-                            Sizes: <span className="text-red-500 font-semibold">{product.size.join(', ')}</span>
+                            Sizes:
+                            <span className="product-size-list">
+                                {product.size.map((size, index) => (
+                                    <span key={index} className="size-item">{size}</span>
+                                ))}
+                            </span>
                         </p>
                         <div className="flex items-center mt-4">
                             <button
@@ -148,10 +158,12 @@ const ProductDetails = () => {
                         </div>
                         <button
                             onClick={() => handleAddToCart(product._id)}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 mt-4"
+                            className="mt-4 px-6 py-3 bg-red-500 text-black rounded-lg shadow-md hover:bg-blue-700"
+
                         >
-                            Add to Cart{quantity}
+                            Add to Cart
                         </button>
+                        {cartMessage && <p className="mt-2 text-green-600">{cartMessage}</p>}
                     </div>
                 </div>
             </div>
@@ -160,17 +172,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -18,6 +18,7 @@ const CategoryPage = () => {
                 });
                 const data = await response.json();
                 setProducts(data.data.filter(product => product.subCategory === category));
+                //console.log(data.data)
 
                 setIsLoading(false);
             } catch (error) {

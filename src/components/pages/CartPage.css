@@ -1,5 +1,6 @@
 /* CartPage.css */
 
+/* General styles */
 .cart-items {
     margin-top: 20px;
 }
@@ -7,6 +8,8 @@
 .cart-item {
     display: flex;
     align-items: center;
+    padding: 16px; /* Adjust padding as needed */
+    border-bottom: 1px solid #e2e8f0; /* Adjust border color */
 }
 
 .cart-item .flex {
@@ -22,16 +25,13 @@
 }
 
 .cart-item .ml-4 {
-    margin-left: 20px;
+    margin-left: 20px; /* Adjust margin as needed */
 }
 
 .cart-item p {
     margin-bottom: 5px;
     font-size: 16px;
-}
-
-.text-gray-700 {
-    color: #4a5568; /* Adjust color as needed */
+    color: #4a5568; /* Adjust text color */
 }
 
 .text-lg {
@@ -47,7 +47,7 @@
 }
 
 .mb-4 {
-    margin-bottom: 16px;
+    margin-bottom: 16px; /* Adjust margin as needed */
 }
 
 .text-center {
@@ -55,11 +55,11 @@
 }
 
 .text-gray-500 {
-    color: #718096; /* Adjust color as needed */
+    color: #718096; /* Adjust text color */
 }
 
 .text-red-500 {
-    color: #f56565; /* Adjust color as needed */
+    color: #f56565; /* Adjust text color */
 }
 
 .max-w-5xl {
@@ -67,15 +67,15 @@
 }
 
 .bg-white {
-    background-color: #ffffff; /* Adjust background color as needed */
+    background-color: #ffffff; /* Adjust background color */
 }
 
 .rounded-lg {
-    border-radius: 8px; /* Adjust border radius as needed */
+    border-radius: 8px; /* Adjust border radius */
 }
 
 .shadow-lg {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Adjust shadow as needed */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Adjust shadow */
 }
 
 .overflow-hidden {
@@ -91,18 +91,10 @@
     padding: 24px; /* Adjust padding as needed */
 }
 
-.mb-4 {
-    margin-bottom: 16px; /* Adjust margin bottom as needed */
-}
-
 .border-b {
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: #e2e8f0; /* Adjust border color as needed */
-}
-
-.border-gray-200 {
-    border-color: #edf2f7; /* Adjust border color as needed */
+    border-bottom-color: #e2e8f0; /* Adjust border color */
 }
 
 .w-20 {
@@ -118,7 +110,7 @@
 }
 
 .rounded {
-    border-radius: 4px; /* Adjust border radius as needed */
+    border-radius: 4px; /* Adjust border radius */
 }
 
 .flex {

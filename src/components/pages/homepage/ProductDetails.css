@@ -1,14 +1,16 @@
 /* ProductDetails.css */
 
-/* Container styles */
-.product-details-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+.max-w-5xl {
+    max-width: 80rem;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .bg-white {
-    background-color: #ffffff;
+    background-color: white;
 }
 
 .rounded-lg {
@@ -16,7 +18,11 @@
 }
 
 .shadow-lg {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.overflow-hidden {
+    overflow: hidden;
 }
 
 .my-4 {
@@ -24,137 +30,128 @@
     margin-bottom: 1rem;
 }
 
-/* Flex layout for main content */
 .flex {
     display: flex;
 }
 
-/* Left column for product images */
-.product-images-container {
-    width: 20%;
-    margin-right: 20px;
+.object-cover {
+    object-fit: cover;
 }
 
-.product-image {
-    width: 100%;
-    height: auto;
-    cursor: pointer;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    transition: border-color 0.3s ease;
+.mb-4 {
+    margin-bottom: 1rem;
 }
 
-.product-image.selected {
-    border: 2px solid #3182ce;
+.font-bold {
+    font-weight: bold;
 }
 
-/* Right column for product details */
-.product-details-content {
-    width: 80%;
-    padding: 20px;
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.text-gray-700 {
+    color: #4a5568;
+}
+
+.text-gray-900 {
+    color: #1a202c;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.rounded-md {
+    border-radius: 0.375rem;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+
+
+.p-6 {
+    padding: 1.5rem;
+}
+
+.bg-gray-100 {
     background-color: #f7fafc;
-    border-radius: 8px;
 }
 
-.product-main-image {
-    width: 100%;
-    height: auto;
-    max-width: 400px;
-    margin-bottom: 20px;
+.ml-2 {
+    margin-left: 0.5rem;
 }
 
-.product-info {
-    font-size: 16px;
-    color: #333;
+.border-2 {
+    border-width: 2px;
 }
 
-.product-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.border-blue-500 {
+    border-color: #4299e1;
 }
 
-.product-brand {
-    margin-bottom: 5px;
+.mt-2 {
+    margin-top: 0.5rem;
 }
 
-.product-price {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.hover\:bg-blue-700:hover {
+    background-color: #2b6cb0;
 }
 
-.product-subcategory {
-    margin-bottom: 5px;
+.text-green-600 {
+    color: #48bb78;
 }
+/* ProductDetails.css */
 
-.product-ratings {
-    margin-bottom: 5px;
-}
-
-.product-sizes {
-    margin-bottom: 10px;
-}
-
-.add-to-cart-button {
-    background-color: #3182ce;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.add-to-cart-button:hover {
-    background-color: #2764a1;
-}
-
-/* Loading overlay styles */
-.loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.product-size-list {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white overlay */
-    z-index: 1000; /* Ensure it's above other content */
+    flex-wrap: wrap;
+    gap: 0.5rem; /* Add some space between the size items */
+    margin-top: 0.5rem;
 }
 
-.spinner {
-    width: 10px;
-    height: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.3);
-    border-top-color: #3182ce;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto;
+.size-item {
+    background-color: #e2e8f0; /* Light gray background */
+    color: #2d3748; /* Dark gray text color */
+    padding: 0.25rem 0.5rem; /* Padding for the size badges */
+    border-radius: 0.375rem; /* Rounded corners */
+    font-size: 0.875rem; /* Text size */
+    font-weight: 500; /* Medium font weight */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
-.loading-text {
-    font-size: 18px;
-    color: #666;
-    animation: fadeInOut 1.5s infinite;
+.size-item:hover {
+    background-color: #cbd5e0; /* Darker gray background on hover */
 }
 
-@keyframes fadeInOut {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
+
