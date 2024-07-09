@@ -101,28 +101,28 @@ const ProductDetails = () => {
     }
 
     return (
-        <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden my-4">
+        <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden my-4" style={{ width: '100%' }} >
             <div className="flex">
-                <div style={{ width: '20%', marginRight: '20px' }}>
+                <div style={{ width: '5%',height:"50%", marginRight: '10px',marginTop:'20px' }}>
                     {product.images && product.images.map((image, index) => (
                         <img
                             key={index}
                             className={`object-cover rounded-lg ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}
                             src={image}
                             alt={`Product ${index + 1}`}
-                            style={{ width: '250px', height: '250px', marginBottom: '10px', cursor: 'pointer' }}
+                            style={{ width: '100%',marginLeft:"8%", marginBottom: '10px', cursor: 'pointer' }}
                             onClick={() => handleImageClick(index)}
                         />
                     ))}
                 </div>
-                <div className="w-4/5 p-6 bg-gray-100 rounded-lg">
+                <div className=" flex w-4/5 p-6 bg-gray-100 rounded-lg" style={{ width: '80%',height:"80%" }}>
                     <img
                         className="object-cover mb-4"
                         src={product.images[selectedImageIndex]}
                         alt={product.name}
                         style={{ width: '100%', height: 'auto', maxWidth: '400px' }}
                     />
-                    <div>
+                    <div style={{marginLeft:"3%"}}>
                         <div className="font-bold text-2xl mb-2">{product.name}</div>
                         <p className="text-gray-700 text-base">Brand: {product.brand}</p>
                         <p className="text-gray-900 text-xl font-semibold mb-4">{product.price} INR</p>
@@ -131,7 +131,7 @@ const ProductDetails = () => {
                             Sizes:
                             <span className="product-size-list">
                                 {product.size.map((size, index) => (
-                                    <span key={index} className="size-item">{size}</span>
+                                    <span key={index} className="size-item shadow-md ml-2">{size}</span>
                                 ))}
                             </span>
                         </p>
@@ -146,7 +146,7 @@ const ProductDetails = () => {
                                 type="number"
                                 value={quantity}
                                 onChange={handleQuantityChange}
-                                className="border rounded-md p-2 w-20 mr-2 text-center"
+                                className="border rounded-md p-2 w-20 mr-2 text-center shadow-md ml-2"
                                 min="1"
                             />
                             <button
@@ -158,7 +158,7 @@ const ProductDetails = () => {
                         </div>
                         <button
                             onClick={() => handleAddToCart(product._id)}
-                            className="mt-4 px-6 py-3 bg-red-500 text-black rounded-lg shadow-md hover:bg-blue-700"
+                            className="mt-4 px-6 py-3 bg-red-500 text-black rounded-lg shadow-md hover:bg-blue-700 " 
 
                         >
                             Add to Cart
