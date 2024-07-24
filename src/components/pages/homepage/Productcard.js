@@ -11,12 +11,11 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <div className="min-w-xl rounded overflow-hidden shadow-lg m-2 imageee" onClick={handleClick}>
+        <div className="min-w-xl rounded overflow-hidden shadow-lg m-2 imageee" onClick={handleClick} style={{width:"95%",height:'95%'}}>
             <img className="min-w-full min-h-128 object-cover " src={product.displayImage} alt={product.name} />
             <div className="px-4 py-4">
-                <div className="font-bold text-lg mb-1">{product.name}</div>
-                <p className="text-gray-700 text-sm">{product.subCategory}</p>
-                <p className="text-gray-900 text-base font-semibold">{product.price} INR</p>
+                <div className="text-gray-900 text-base ">{product.name}</div>
+                <p className="text-gray-900 text-base font-bold">{product.price} INR</p>
             </div>
         </div>
     );
@@ -65,12 +64,12 @@ const ProductCaroseul = ({ title, products }) => {
             <h1 className='font-bold text-3xl m-10 text-center'>{title}</h1>
             <Carousel
                 value={products}
-                numVisible={4}
+                numVisible={6}
                 numScroll={3}
                 responsiveOptions={responsiveOptions}
                 className="custom-carousel"
                 circular
-                autoplayInterval={5000}
+                autoplayInterval={10000}
                 itemTemplate={(product, options) => (
                     <ProductCard product={product} />
                 )}

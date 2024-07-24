@@ -11,6 +11,7 @@
 .content {
     display: flex;
     align-items: flex-start;
+    gap: 100px;
 }
 
 .filters {
@@ -26,11 +27,6 @@
 .filters label {
     margin-bottom: 10px;
 }
-
-.banner {
-    flex: 2;
-}
-
 .grid-container {
     display: grid;
     grid-template-columns: 1fr;

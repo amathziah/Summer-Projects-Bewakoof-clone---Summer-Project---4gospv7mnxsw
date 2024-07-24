@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useShop } from '../../ShopContext';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
     const { productId } = useParams();
-    const { state } = useShop(); // Access the state from the context
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1); // default quantity to 1
     const [cartMessage, setCartMessage] = useState(''); // State to hold the cart message
+    console.log(product)
 
     useEffect(() => {
         async function fetchProductDetails() {
@@ -62,6 +60,7 @@ const ProductDetails = () => {
             const authToken = localStorage.getItem('token');
             if (!authToken) {
                 console.error('No auth token found in localStorage');
+                alert("Login to continue")
                 return;
             }
 

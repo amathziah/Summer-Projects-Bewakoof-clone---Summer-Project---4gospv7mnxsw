@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './styles.css'; // Import your CSS file
+import './styles.css';
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({username: '',email: '',password: '',});
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -26,7 +20,8 @@ const SignUp = () => {
       });
       const data = await response.json();
       if (data.success) {
-        navigate('/login'); // Navigate to login page after successful signup
+        alert("Account created succesfully")
+        navigate('/login');
       } else {
         console.error('Signup error:', data.error);
       }

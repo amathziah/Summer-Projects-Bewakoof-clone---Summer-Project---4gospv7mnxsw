@@ -33,6 +33,7 @@ const ProductList = () => {
         });
         const data = await response.json();
         setProductData(data.data);
+        console.log(data.data)
         setIsLoading(false);
       } catch (error) {
         setError(error);
@@ -47,7 +48,7 @@ const ProductList = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4" style={{width:"100%"}}>
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -69,7 +70,7 @@ const ProductList = () => {
         <div className="banner">
             <img src="https://images.ctfassets.net/wowgx05xsdrr/FuyuOgIBjnHyehF0IR8zY/8109414c34065431d14886a5aad2f60a/Article-Header_Ecommerce_Website.jpg?fm=webp&w=3840&q=75" alt="Banner" />
         </div>
-          <div className="mt-16 p-4">
+          <div className="mt-16 p-4" >
             <ProductCaroseul title="Top Rated Products" products={productData.slice(100,2000).filter(product => product.sellerTag === 'top rated')} />
             <ProductCaroseul title="New Arrivals" products={productData.filter(product => product.sellerTag === 'new arrival')} />
             <div className="banner2">

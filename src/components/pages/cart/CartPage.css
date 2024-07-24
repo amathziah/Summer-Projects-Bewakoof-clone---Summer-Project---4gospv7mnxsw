@@ -124,3 +124,20 @@
 .ml-4 {
     margin-left: 20px; /* Adjust margin left as needed */
 }
+
+.addAddressbutton {
+    background-color: #f8d50b; /* Yellow background color */
+    color: rgb(0, 0, 0); /* Text color */
+    border: 2px solid rgb(243, 243, 235); /* Sandy brown border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px; /* Padding inside the button */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .addAddressbutton:hover {
+    background-color: #e6c200; /* Slightly darker yellow on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+    border-color: sandybrown; /* Sandy brown border color remains the same */
+  }

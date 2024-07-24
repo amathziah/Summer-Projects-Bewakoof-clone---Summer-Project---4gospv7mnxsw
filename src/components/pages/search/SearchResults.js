@@ -25,7 +25,7 @@ const SearchProducts = () => {
             const url = 'https://academics.newtonschool.co/api/v1/ecommerce/clothes/products';
             const queryParams = new URLSearchParams({
                 search: JSON.stringify({ name: searchQuery }),
-                limit: 5000
+                limit: 500
             });
 
             try {
@@ -120,7 +120,7 @@ const SearchProducts = () => {
                     </label>
                 </div>
                 <div className="banner">
-                    <img src="https://static.vecteezy.com/system/resources/previews/006/388/767/non_2x/women-happy-with-shopping-on-mobile-pay-by-credit-card-shopping-online-in-an-online-store-on-a-website-or-mobile-application-concept-loves-shopping-design-for-sale-banner-digital-marketing-vector.jpg" alt="" />
+                    <img src="https://static.vecteezy.com/system/resources/previews/006/388/767/non_2x/women-happy-with-shopping-on-mobile-pay-by-credit-card-shopping-online-in-an-online-store-on-a-website-or-mobile-application-concept-loves-shopping-design-for-sale-banner-digital-marketing-vector.jpg" style={{width:"50%"}} alt="" />
                 </div>
             </div>
             <div className="grid-container">
@@ -135,7 +135,7 @@ const SearchProducts = () => {
                             <div className="product-details">
                                 <div className="product-name">{product.name}</div>
                                 <div className="product-brand">Brand: {product.brand}</div>
-                                <div className="product-price">Price: ${product.price}</div>
+                                <div className="product-price">Price: Rs {product.price}</div>
                                 <div className="product-rating">Rating: {product.ratings}</div>
                             </div>
                         </Link>

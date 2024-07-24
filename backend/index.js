@@ -168,7 +168,8 @@ app.post("/signup", async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign({ userId: user._id }, 'secret_ecom', { expiresIn: '1h' });
+    const token  = jwt.sign({ userId: user._id }, 'secret_ecom', { expiresIn: '7d' });
+
 
     res.json({ success: true, token });
   } catch (error) {
@@ -308,6 +309,76 @@ app.get('/cart', fetchUser, async (req, res) => {
   } catch (error) {
       console.error("Error fetching cart data:", error);
       res.status(500).json({ success: false, error: "Failed to fetch cart data" });
+  }
+});
+// Profile endpoint to get user details
+app.get('/profile', fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user).select('-password'); // Exclude password field
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ success: false, error: "Failed to fetch profile" });
+  }
+});
+
+// Update profile endpoint
+app.post('/updateprofile', fetchUser, async (req, res) => {
+  const { email, password } = req.body;
+
+  // Basic validation
+  if (!email && !password) {
+    return res.status(400).json({ success: false, message: "No fields to update" });
+  }
+
+  try {
+    let user = await User.findById(req.user);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (email) user.email = email;
+    if (password) user.password = password;
+
+    await user.save();
+    res.json({ success: true, message: "Profile updated successfully" });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ success: false, error: "Failed to update profile" });
+  }
+});
+// Remove item from cart endpoint
+app.delete('/removeitem', fetchUser, async (req, res) => {
+  const { productId } = req.body;
+
+  if (!productId) {
+    return res.status(400).send({ errors: "Product ID is required" });
+  }
+
+  try {
+    let user = await User.findById(req.user);
+
+    if (!user) {
+      return res.status(404).send({ errors: "User not found" });
+    }
+
+    // Find the index of the product to be removed
+    const productIndex = user.cartData.findIndex(item => item.productId.toString() === productId);
+
+    if (productIndex > -1) {
+      // Remove the product from the cart
+      user.cartData.splice(productIndex, 1);
+      await user.save();
+      res.json({ success: true, cartData: user.cartData });
+    } else {
+      res.status(400).json({ errors: "Product not found in the cart" });
+    }
+  } catch (error) {
+    console.error("Error removing item from cart:", error);
+    res.status(500).json({ success: false, error: "Failed to remove item from cart" });
   }
 });
 

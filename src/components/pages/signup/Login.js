@@ -1,6 +1,7 @@
 // Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './styles.css'; // Import your CSS file
 
 const Login = ({ onLogin }) => {
@@ -29,9 +30,11 @@ const Login = ({ onLogin }) => {
                 // Update login status and navigate to homepage
                 localStorage.setItem('token', data.token);
                 onLogin(data.token); // Update login status in parent component
+                alert("Login succesful")
                 navigate('/'); // Navigate to homepage
             } else {
                 // Handle login errors (e.g., display error message)
+                alert("wrong password or id")
                 console.error('Login error:', data.error);
             }
         } catch (error) {
@@ -55,6 +58,9 @@ const Login = ({ onLogin }) => {
                 <br />
                 <button type="submit" className="form-button" >Login</button>
             </form>
+            <p className="form-footer">
+                Don't have an account? <Link to="/signup" className="signup-link">Sign up</Link>
+            </p>
         </div>
     );
 };

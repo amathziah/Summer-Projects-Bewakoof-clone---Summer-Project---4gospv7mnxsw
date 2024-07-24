@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./CartPage.css"
 
@@ -7,6 +8,7 @@ const CartPage = () => {
     const [productDetails, setProductDetails] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCartData = async () => {
@@ -110,6 +112,31 @@ const CartPage = () => {
         }
     };
 
+    const handleRemoveItem = async (itemId) => {
+        try {
+            const authToken = localStorage.getItem('token');
+            if (!authToken) {
+                console.error('No auth token found in localStorage');
+                return;
+            }
+
+            const response = await axios.delete('http://localhost:4000/removeitem', {
+                data: { productId: itemId },
+                headers: {
+                    'auth-token': authToken,
+                }
+            });
+
+            if (response.data.success) {
+                setCartItems(cartItems.filter(item => item.productId !== itemId));
+            } else {
+                console.error('Failed to remove item from cart');
+            }
+        } catch (error) {
+            console.error('Error removing item from cart:', error);
+        }
+    };
+
     const getTotalCartCost = () => {
         return cartItems.reduce((total, item) => {
             const product = productDetails[item.productId];
@@ -164,6 +191,12 @@ const CartPage = () => {
                                             >
                                                 +
                                             </button>
+                                            <button
+                                                onClick={() => handleRemoveItem(item.productId)}
+                                                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-md ml-2"
+                                            >
+                                                Remove
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -173,6 +206,9 @@ const CartPage = () => {
                     <div className="total-cart">
                         <h3 className="text-xl font-semibold mt-4">Total Cart Cost: {getTotalCartCost()} INR</h3>
                     </div>
+                    <button className="addAddressbutton" onClick={()=>navigate("/AddressPage")}>
+                        Add Address
+                    </button>
                 </div>
             )}
         </div>
@@ -180,6 +216,7 @@ const CartPage = () => {
 };
 
 export default CartPage;
+
 
 
 

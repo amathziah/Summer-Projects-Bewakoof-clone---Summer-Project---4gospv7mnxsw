@@ -1,16 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './css/main.css';
 import App from './App';
-import { ShopProvider } from '/Users/amathziah/Desktop/bewakoofclone/Summer-Projects-Bewakoof-clone---Summer-Project---4gospv7mnxsw/src/components/ShopContext'; 
+import { ShopProvider } from './components/context/ShopContext';
 
-ReactDOM.render(
+// Get the root container
+const container = document.getElementById('root');
+
+// Create a root
+const root = createRoot(container);
+
+// Render the app
+root.render(
   <React.StrictMode>
-      <ShopProvider>
-          <App />
-      </ShopProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <ShopProvider>
+      <App />
+    </ShopProvider>
+  </React.StrictMode>
 );
+
 
 
