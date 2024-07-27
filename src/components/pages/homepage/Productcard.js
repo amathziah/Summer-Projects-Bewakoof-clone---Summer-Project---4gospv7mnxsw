@@ -12,10 +12,16 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="min-w-xl rounded overflow-hidden shadow-lg m-2 imageee" onClick={handleClick} style={{width:"95%",height:'95%'}}>
-            <img className="min-w-full min-h-128 object-cover " src={product.displayImage} alt={product.name} />
+            <div className="relative group min-w-full min-h-128 overflow-hidden">
+                <img
+                className="min-w-full min-h-128 object-cover transition-transform duration-300 ease-in-out hover:scale-105 hover:opacity-80 hover:shadow-lg hover:border-2 hover:border-blue-500"
+                    src={product.displayImage}
+                    alt={product.name}
+                />
+            </div>
             <div className="px-4 py-4">
-                <div className="text-gray-900 text-base ">{product.name}</div>
-                <p className="text-gray-900 text-base font-bold">{product.price} INR</p>
+                <div className="text-gray-900 ">{product.name}</div>
+                <p className=" text-red-500 font-bold">{product.price} INR</p>
             </div>
         </div>
     );

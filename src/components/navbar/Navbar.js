@@ -136,6 +136,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                     Search
                 </button>
             </div>
+            
             <div className="navbar-cart-auth flex items-center">
                 <a href="/cart" className="rounded-md cart-link">
                     <FontAwesomeIcon icon={faShoppingCart} className="mr-1" />
