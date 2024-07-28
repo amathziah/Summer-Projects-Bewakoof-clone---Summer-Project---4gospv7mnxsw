@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Carousel } from 'primereact/carousel';
 import { useNavigate } from 'react-router-dom';
 
-
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
 
@@ -10,20 +9,25 @@ const ProductCard = ({ product }) => {
         navigate(`/product/${product._id}`);
     };
 
-    return (
-        <div className="min-w-xl rounded overflow-hidden shadow-lg m-2 imageee" onClick={handleClick} style={{width:"95%",height:'95%'}}>
-            <div className="relative group min-w-full min-h-128 overflow-hidden">
-                <img
-                className="min-w-full min-h-128 object-cover transition-transform duration-300 ease-in-out hover:scale-105 hover:opacity-80 hover:shadow-lg hover:border-2 hover:border-blue-500"
-                    src={product.displayImage}
-                    alt={product.name}
-                />
-            </div>
-            <div className="px-4 py-4">
-                <div className="text-gray-900 ">{product.name}</div>
-                <p className=" text-red-500 font-bold">{product.price} INR</p>
-            </div>
-        </div>
+    return(
+<div
+    className="w-full max-w-xs rounded overflow-hidden shadow-lg m-4 transition-transform duration-300 ease-in-out hover:shadow-xl hover:scale-105"
+    onClick={handleClick}
+    style={{ height: '80%' }}
+>
+    <div className="relative overflow-hidden bg-gray-100">
+        <img
+            className="w-full h-64 object-cover transition-transform duration-300 ease-in-out group-hover:opacity-90 hover:scale-105"
+            src={product.displayImage}
+            alt={product.name}
+        />
+    </div>
+    <div className="p-4">
+        <div className="mt-4 text-lg font-semibold text-gray-900">{product.name}</div>
+        <p className="mt-2 text-red-600 font-bold hover:text-blue-600">{product.price} INR</p>
+    </div>
+</div>
+
     );
 };
 
@@ -67,7 +71,7 @@ const ProductCaroseul = ({ title, products }) => {
 
     return (
         <div className="card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <h1 className='font-bold text-3xl m-10 text-center'>{title}</h1>
+            <h1 className="font-bold text-3xl m-10 text-center">{title}</h1>
             <Carousel
                 value={products}
                 numVisible={6}
@@ -86,3 +90,4 @@ const ProductCaroseul = ({ title, products }) => {
 };
 
 export default ProductCaroseul;
+

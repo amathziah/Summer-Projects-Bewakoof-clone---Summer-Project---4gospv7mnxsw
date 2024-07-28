@@ -1,20 +1,19 @@
-import React, { useState, useEffect ,useContext} from 'react';
+// Womens.js
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Womens.css';
 import { ProductsContext } from '../../../context/ProductsContext';
+
 const Womens = () => {
     const [womensProducts, setWomensProducts] = useState([]);
+    const [loading, setLoading] = useState(true); // Loading state
     const projectId = 'f104bi07c490'; // Replace with your actual project ID
     const products = useContext(ProductsContext);
-    //console.log(products)
-    //const womenProducts = products.filter(product => product.gender === 'Women');
-
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchWomensProducts = async () => {
             const url = 'https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?limit=500';
-            const queryParams = new URLSearchParams({ 
+            const queryParams = new URLSearchParams({
                 search: JSON.stringify({ gender: 'women' })
             });
 
@@ -33,6 +32,8 @@ const Womens = () => {
                 setWomensProducts(data.data);
             } catch (error) {
                 console.error('Error fetching women’s products:', error);
+            } finally {
+                setLoading(false); // Set loading to false once data is fetched
             }
         };
 
@@ -44,33 +45,45 @@ const Womens = () => {
     };
 
     return (
-        <div className="womens-container" style={{marginTop:"2%"}}>
-            <h2 className="title">Women's Products</h2>
-            <div className="banner" style={{width:"50%"}}>
-                <img src="https://marketplace.canva.com/EAE2DGluFHc/1/0/1600w/canva-pink-and-blue-modern-minimalist-special-offer-promotion-banner-G8TnrO1SWD0.jpg" alt="" />
+        <div className="container mx-auto p-4 mt-4">
+            <h2 className="text-2xl font-bold mb-4">Women's Products</h2>
+            <div className="mb-6">
+                <img
+                    src="https://marketplace.canva.com/EAE2DGluFHc/1/0/1600w/canva-pink-and-blue-modern-minimalist-special-offer-promotion-banner-G8TnrO1SWD0.jpg"
+                    alt="Women's Sale Banner"
+                    className="w-full h-auto object-cover rounded-lg"
+                />
             </div>
-            <div className="grid-container">
-                {womensProducts.map(product => (
-                    <div 
-                        key={product._id} 
-                        className="product-card" 
-                        onClick={() => handleProductClick(product._id)}
-                    >
-                        <img
-                            src={product.displayImage}
-                            alt={product.name}
-                            className="product-image"
-                        />
-                        <div className="product-name">{product.name}</div>
-                        <div className="product-brand">Brand: {product.brand}</div>
-                        <div className="product-price">Price: ${product.price}</div>
-                        <div className="product-rating">Rating: {product.ratings}</div>
-                    </div>
-                ))}
-            </div>
+            {loading ? (
+                <div className="flex justify-center items-center">
+                    <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                </div>
+            ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {womensProducts.map(product => (
+                        <div
+                            key={product._id}
+                            className="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer"
+                            onClick={() => handleProductClick(product._id)}
+                        >
+                            <img
+                                src={product.displayImage}
+                                alt={product.name}
+                                className="w-full h-48 object-cover mb-2 rounded-md"
+                            />
+                            <div className="text-lg font-semibold mb-1">{product.name}</div>
+                            <div className="text-gray-600 mb-1">Brand: {product.brand}</div>
+                            <div className="text-gray-800 font-bold mb-1">Price: ${product.price}</div>
+                            <div className="text-yellow-500">Rating: {product.ratings}</div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
 export default Womens;
+
+
 

@@ -197,7 +197,7 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ success: false, errors: "Incorrect password" });
     }
 
-    const token = jwt.sign({ userId: user._id }, 'secret_ecom', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, 'secret_ecom', { expiresIn: '7d' });
 
     res.json({ success: true, token });
   } catch (error) {

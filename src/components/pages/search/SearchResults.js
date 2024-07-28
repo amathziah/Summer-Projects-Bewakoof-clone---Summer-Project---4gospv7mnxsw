@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import './SearchProducts.css';
+//import './SearchProducts.css';
 
 const SearchProducts = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({
         gender: '',
         color: '',
@@ -21,6 +22,7 @@ const SearchProducts = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
+            setLoading(true); // Start loading
             const searchQuery = getQueryParams(location.search);
             const url = 'https://academics.newtonschool.co/api/v1/ecommerce/clothes/products';
             const queryParams = new URLSearchParams({
@@ -44,6 +46,8 @@ const SearchProducts = () => {
                 setFilteredProducts(data.data.slice(0, 1000)); // Initial filtered products
             } catch (error) {
                 console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false); // End loading
             }
         };
 
@@ -74,20 +78,20 @@ const SearchProducts = () => {
     }, [filters, products]);
 
     return (
-        <div className="container">
-            <h2 className="title">Search Results:</h2>
-            <div className="content">
-                <div className="filters mb-4">
-                    <label>
+        <div className="container mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-center mb-6">Search Results:</h2>
+            <div className="flex flex-wrap mb-8">
+                <div className="w-full md:w-1/4 p-4 bg-white rounded-lg shadow-md mb-4 md:mb-0">
+                    <label className="block mb-4">
                         Gender:
-                        <select name="gender" value={filters.gender} onChange={handleFilterChange}>
+                        <select name="gender" value={filters.gender} onChange={handleFilterChange} className="block w-full mt-2 p-2 border rounded-md">
                             <option value="">All</option>
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                             <option value="unisex">Unisex</option>
                         </select>
                     </label>
-                    <label>
+                    <label className="block mb-4">
                         Color:
                         <input
                             type="text"
@@ -95,11 +99,12 @@ const SearchProducts = () => {
                             value={filters.color}
                             onChange={handleFilterChange}
                             placeholder="Enter color"
+                            className="block w-full mt-2 p-2 border rounded-md"
                         />
                     </label>
-                    <label>
+                    <label className="block mb-4">
                         Rating:
-                        <select name="ratings" value={filters.ratings} onChange={handleFilterChange}>
+                        <select name="ratings" value={filters.ratings} onChange={handleFilterChange} className="block w-full mt-2 p-2 border rounded-md">
                             <option value={0}>All</option>
                             <option value={1}>1 & up</option>
                             <option value={2}>2 & up</option>
@@ -108,7 +113,7 @@ const SearchProducts = () => {
                             <option value={5}>5</option>
                         </select>
                     </label>
-                    <label>
+                    <label className="block">
                         SubCategory:
                         <input
                             type="text"
@@ -116,37 +121,48 @@ const SearchProducts = () => {
                             value={filters.subCategory}
                             onChange={handleFilterChange}
                             placeholder="Enter subCategory"
+                            className="block w-full mt-2 p-2 border rounded-md"
                         />
                     </label>
                 </div>
-                <div className="banner">
-                    <img src="https://static.vecteezy.com/system/resources/previews/006/388/767/non_2x/women-happy-with-shopping-on-mobile-pay-by-credit-card-shopping-online-in-an-online-store-on-a-website-or-mobile-application-concept-loves-shopping-design-for-sale-banner-digital-marketing-vector.jpg" style={{width:"50%"}} alt="" />
+                <div className="w-full md:w-3/4 p-4">
+                    <img src="https://static.vecteezy.com/system/resources/previews/006/388/767/non_2x/women-happy-with-shopping-on-mobile-pay-by-credit-card-shopping-online-in-an-online-store-on-a-website-or-mobile-application-concept-loves-shopping-design-for-sale-banner-digital-marketing-vector.jpg" className="w-full rounded-lg shadow-md" alt="Shopping Banner" />
                 </div>
             </div>
-            <div className="grid-container">
-                {filteredProducts.map(product => (
-                    <div key={product._id} className="product-card">
-                        <Link to={`/product/${product._id}`} className="product-link">
-                            <img
-                                src={product.displayImage}
-                                alt={product.name}
-                                className="product-image"
-                            />
-                            <div className="product-details">
-                                <div className="product-name">{product.name}</div>
-                                <div className="product-brand">Brand: {product.brand}</div>
-                                <div className="product-price">Price: Rs {product.price}</div>
-                                <div className="product-rating">Rating: {product.ratings}</div>
-                            </div>
-                        </Link>
+            {loading ? (
+                <div className="text-center">
+                    <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+                        <span className="visually-hidden">Loading...</span>
                     </div>
-                ))}
-            </div>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {filteredProducts.map(product => (
+                        <div key={product._id} className="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1">
+                            <Link to={`/product/${product._id}`} className="block">
+                                <img
+                                    src={product.displayImage}
+                                    alt={product.name}
+                                    className="w-full h-48 object-cover"
+                                />
+                                <div className="p-4">
+                                    <div className="font-bold text-xl mb-2">{product.name}</div>
+                                    <div className="text-gray-700">Brand: {product.brand}</div>
+                                    <div className="text-gray-900 text-lg font-semibold mt-2">Price: Rs {product.price}</div>
+                                    <div className="text-yellow-500 mt-2">Rating: {product.ratings}</div>
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
 export default SearchProducts;
+
+
 
 
 

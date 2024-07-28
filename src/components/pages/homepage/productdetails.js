@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import './ProductDetails.css';
 
@@ -8,9 +8,9 @@ const ProductDetails = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-    const [quantity, setQuantity] = useState(1); // default quantity to 1
-    const [cartMessage, setCartMessage] = useState(''); // State to hold the cart message
-    console.log(product)
+    const [quantity, setQuantity] = useState(1);
+    const [cartMessage, setCartMessage] = useState('');
+    const imageRef = useRef(null);
 
     useEffect(() => {
         async function fetchProductDetails() {
@@ -60,7 +60,7 @@ const ProductDetails = () => {
             const authToken = localStorage.getItem('token');
             if (!authToken) {
                 console.error('No auth token found in localStorage');
-                alert("Login to continue")
+                alert("Login to continue");
                 return;
             }
 
@@ -71,7 +71,7 @@ const ProductDetails = () => {
                     'auth-token': authToken,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ productId: itemId, quantity }) // pass productId and quantity
+                body: JSON.stringify({ productId: itemId, quantity })
             });
 
             const data = await response.json();
@@ -80,14 +80,12 @@ const ProductDetails = () => {
                 throw new Error(data.errors || 'Failed to add to cart');
             }
 
-            // Set cart message on success
             setCartMessage('Item added to cart successfully!');
-            setTimeout(() => setCartMessage(''), 3000); // Clear message after 3 seconds
+            setTimeout(() => setCartMessage(''), 3000);
         } catch (error) {
             console.error('Error adding product to cart:', error);
-            // Handle error or display error message
             setCartMessage('Error adding item to cart. Please try again.');
-            setTimeout(() => setCartMessage(''), 3000); // Clear message after 3 seconds
+            setTimeout(() => setCartMessage(''), 3000);
         }
     };
 
@@ -100,40 +98,42 @@ const ProductDetails = () => {
     }
 
     return (
-        <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden my-4" style={{ width: '100%' }} >
+        <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden my-4">
             <div className="flex">
-                <div style={{ width: '5%',height:"50%", marginRight: '10px',marginTop:'20px' }}>
+                <div className="flex flex-col items-center w-1/12 overflow-y-auto" style={{ maxHeight: '500px' }}>
                     {product.images && product.images.map((image, index) => (
                         <img
                             key={index}
-                            className={`object-cover rounded-lg ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}
+                            className={`object-cover rounded-lg cursor-pointer mb-2 ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}
                             src={image}
                             alt={`Product ${index + 1}`}
-                            style={{ width: '100%',marginLeft:"8%", marginBottom: '10px', cursor: 'pointer' }}
                             onClick={() => handleImageClick(index)}
+                            style={{ maxHeight: '100px' }} // Set max height for thumbnails
                         />
                     ))}
                 </div>
-                <div className=" flex w-4/5 p-6 bg-gray-100 rounded-lg" style={{ width: '80%',height:"80%" }}>
+                <div className="w-11/12 p-6 bg-gray-100 rounded-lg flex">
                     <img
-                        className="object-cover mb-4"
+                        ref={imageRef}
+                        className="object-cover mb-4 hover:opacity-80 max-w-lg"
                         src={product.images[selectedImageIndex]}
                         alt={product.name}
-                        style={{ width: '100%', height: 'auto', maxWidth: '400px' }}
                     />
-                    <div style={{marginLeft:"3%"}}>
-                        <div className="font-bold text-2xl mb-2">{product.name}</div>
-                        <p className="text-gray-700 text-base">Brand: {product.brand}</p>
-                        <p className="text-gray-900 text-xl font-semibold mb-4">{product.price} INR</p>
+                    <div className="ml-6">
+                        <h2 className="font-bold text-2xl mb-2">{product.name}</h2>
+                        <p className="hover:text-gray-700">Brand: {product.brand}</p>
+                        <p className="text-gray-900 text-xl font-semibold mb-4 hover:text-blue-700">{product.price} INR</p>
                         <p className="text-gray-700 text-base">Ratings: {Math.round(product.ratings)}</p>
-                        <p className="text-gray-700 text-base">
+                        
+                        <p className="text-gray-700 text-base mt-2">
                             Sizes:
-                            <span className="product-size-list">
+                            <span className="flex flex-wrap gap-2 mt-2">
                                 {product.size.map((size, index) => (
-                                    <span key={index} className="size-item shadow-md ml-2">{size}</span>
+                                    <span key={index} className="bg-gray-300 text-gray-700 px-2 py-1 rounded-md shadow-md">{size}</span>
                                 ))}
                             </span>
                         </p>
+                        
                         <div className="flex items-center mt-4">
                             <button
                                 onClick={handleDecreaseQuantity}
@@ -145,7 +145,7 @@ const ProductDetails = () => {
                                 type="number"
                                 value={quantity}
                                 onChange={handleQuantityChange}
-                                className="border rounded-md p-2 w-20 mr-2 text-center shadow-md ml-2"
+                                className="border rounded-md p-2 w-20 text-center shadow-md"
                                 min="1"
                             />
                             <button
@@ -157,8 +157,7 @@ const ProductDetails = () => {
                         </div>
                         <button
                             onClick={() => handleAddToCart(product._id)}
-                            className="mt-4 px-6 py-3 bg-red-500 text-black rounded-lg shadow-md hover:bg-blue-700 " 
-
+                            className="mt-4 px-6 py-3 text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 ease-in-out"
                         >
                             Add to Cart
                         </button>
@@ -171,4 +170,6 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+
 

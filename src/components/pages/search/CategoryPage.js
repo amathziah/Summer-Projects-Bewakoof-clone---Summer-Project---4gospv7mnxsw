@@ -18,8 +18,6 @@ const CategoryPage = () => {
                 });
                 const data = await response.json();
                 setProducts(data.data.filter(product => product.subCategory === category));
-                //console.log(data.data)
-
                 setIsLoading(false);
             } catch (error) {
                 setError(error);
@@ -32,19 +30,19 @@ const CategoryPage = () => {
     return (
         <div className="container mx-auto p-4">
             {isLoading ? (
-                <p>Loading...</p>
+                <p className="text-center text-gray-500">Loading...</p>
             ) : error ? (
-                <p>Error fetching data: {error.message}</p>
+                <p className="text-center text-red-500">Error fetching data: {error.message}</p>
             ) : (
                 <>
-                    <h2 className="text-2xl font-bold mb-4">Category: {category}</h2>
-                    <div className="product-grid">
+                    <h2 className="text-3xl font-bold mb-6 text-center">Category: {category}</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {products.map(product => (
-                            <Link key={product._id} to={`/product/${product._id}`} className="product-link">
-                                <div className="product-card">
-                                    <img src={product.displayImage} alt={product.name} className="product-image" />
-                                    <h3 className="product-name">{product.name}</h3>
-                                    <p className="product-price">{product.price} INR</p>
+                            <Link key={product._id} to={`/product/${product._id}`} className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-200 hover:scale-105">
+                                <img src={product.displayImage} alt={product.name} className="w-full h-48 object-cover" />
+                                <div className="p-4">
+                                    <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                                    <p className="text-gray-600 text-sm">{product.price} INR</p>
                                 </div>
                             </Link>
                         ))}
@@ -56,5 +54,6 @@ const CategoryPage = () => {
 };
 
 export default CategoryPage;
+
 
 
