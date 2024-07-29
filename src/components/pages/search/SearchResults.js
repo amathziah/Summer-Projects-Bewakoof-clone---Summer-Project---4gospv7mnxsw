@@ -131,8 +131,8 @@ const SearchProducts = () => {
             </div>
             {loading ? (
                 <div className="text-center">
-                    <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                    <div className="inline-block w-8 h-8 border-4 border-t-blue-500 border-r-blue-500 border-gray-200 animate-spin rounded-full" role="status">
+                        <span className="visually-hidden"></span>
                     </div>
                 </div>
             ) : (
