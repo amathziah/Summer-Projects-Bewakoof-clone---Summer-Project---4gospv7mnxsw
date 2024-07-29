@@ -9,6 +9,7 @@ const ProductDetails = () => {
     const [error, setError] = useState(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
+    const [selectedSize, setSelectedSize] = useState('');
     const [cartMessage, setCartMessage] = useState('');
     const imageRef = useRef(null);
 
@@ -55,8 +56,17 @@ const ProductDetails = () => {
         }
     };
 
+    const handleSizeChange = (e) => {
+        setSelectedSize(e.target.value);
+    };
+
     const handleAddToCart = async (itemId) => {
         try {
+            if (!selectedSize) {
+                alert("Please select a size.");
+                return;
+            }
+
             const authToken = localStorage.getItem('token');
             if (!authToken) {
                 console.error('No auth token found in localStorage');
@@ -71,7 +81,7 @@ const ProductDetails = () => {
                     'auth-token': authToken,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ productId: itemId, quantity })
+                body: JSON.stringify({ productId: itemId, quantity, size: selectedSize })
             });
 
             const data = await response.json();
@@ -127,11 +137,12 @@ const ProductDetails = () => {
                         
                         <p className="text-gray-700 text-base mt-2">
                             Sizes:
-                            <span className="flex flex-wrap gap-2 mt-2">
+                            <select value={selectedSize} onChange={handleSizeChange} className="ml-2 border rounded-md p-2">
+                                <option value="">Select a size</option>
                                 {product.size.map((size, index) => (
-                                    <span key={index} className="bg-gray-300 text-gray-700 px-2 py-1 rounded-md shadow-md">{size}</span>
+                                    <option key={index} value={size}>{size}</option>
                                 ))}
-                            </span>
+                            </select>
                         </p>
                         
                         <div className="flex items-center mt-4">
@@ -170,6 +181,9 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+
+
 
 
 

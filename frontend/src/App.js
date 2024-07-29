@@ -1,20 +1,20 @@
 // App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar/Navbar';
-import ProductList from './components/pages/homepage/ProductList';
-import ProductDetails from './components/pages/homepage/productdetails';
-import SearchResults from './components/pages/search/SearchResults';
-import Footer from './components/pages/footer/Footer';
-import Mens from './components/pages/homepage/section/Mens';
-import Womens from './components/pages/homepage/section/Womens';
-import CategoryPage from './components/pages/search/CategoryPage';
+import Navbar from './components/navbar/Navbar.js';
+import ProductList from './components/pages/homepage/ProductList.js';
+import ProductDetails from './components/pages/homepage/productdetails.js';
+import SearchResults from './components/pages/search/SearchResults.js';
+import Footer from './components/pages/footer/Footer.js';
+import Mens from './components/pages/homepage/section/Mens.js';
+import Womens from './components/pages/homepage/section/Womens.js';
+import CategoryPage from './components/pages/search/CategoryPage.js';
 import Login from './components/pages/signup/Login.js';
 import SignUp from './components/pages/signup/Signup.js';
-import CartPage from './components/pages/cart/cart';
-import Profile from './components/pages/signup/Profile';
-import ProductListPage from './components/pages/ProductListPage';
-import { ProductsProvider } from './components/context/ProductsContext';
+import CartPage from './components/pages/cart/cart.js';
+import Profile from './components/pages/signup/Profile.js';
+import ProductListPage from './components/pages/ProductListPage.js';
+import { ProductsProvider } from './components/context/ProductsContext.js';
 import AddAddressPage from './components/pages/address/AddAddressPage.js';
 import PaymentPage from './components/pages/payment/PaymentPage.js';
 

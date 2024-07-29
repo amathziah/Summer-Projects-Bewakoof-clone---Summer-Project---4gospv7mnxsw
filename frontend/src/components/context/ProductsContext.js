@@ -35,7 +35,7 @@ const ProductsProvider = ({ children }) => {
 
   // Log products state whenever it changes
   useEffect(() => {
-    console.log(products);
+    //console.log(products);
   }, [products]);
 
   return (
