@@ -55,8 +55,10 @@ const Womens = () => {
                 />
             </div>
             {loading ? (
-                <div className="flex justify-center items-center">
-                    <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                <div className="text-center">
+                    <div className="inline-block w-8 h-8 border-4 border-t-blue-500 border-r-blue-500 border-gray-200 animate-spin rounded-full" role="status">
+                        <span className="visually-hidden"></span>
+                    </div>
                 </div>
             ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

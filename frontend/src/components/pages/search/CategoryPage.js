@@ -8,6 +8,7 @@ const CategoryPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
     useEffect(() => {
         async function fetchData() {
             try {

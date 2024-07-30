@@ -12,6 +12,7 @@ const ProductDetails = () => {
     const [selectedSize, setSelectedSize] = useState('');
     const [cartMessage, setCartMessage] = useState('');
     const imageRef = useRef(null);
+    console.log(imageRef)
 
     useEffect(() => {
         async function fetchProductDetails() {

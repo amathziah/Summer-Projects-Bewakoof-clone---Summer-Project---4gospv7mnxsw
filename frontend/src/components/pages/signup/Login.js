@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import './styles.css'; // Import your CSS file
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -27,14 +26,12 @@ const Login = ({ onLogin }) => {
             });
             const data = await response.json();
             if (data.success) {
-                // Update login status and navigate to homepage
                 localStorage.setItem('token', data.token);
                 onLogin(data.token); // Update login status in parent component
-                alert("Login succesful")
+                alert("Login successful");
                 navigate('/'); // Navigate to homepage
             } else {
-                // Handle login errors (e.g., display error message)
-                alert("wrong password or id")
+                alert("Wrong password or ID");
                 console.error('Login error:', data.error);
             }
         } catch (error) {
@@ -43,29 +40,52 @@ const Login = ({ onLogin }) => {
     };
 
     return (
-        <div className="form-container" >
-            <h2 className="form-title">Login</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Email:
-                    <input className="form-input" type="email" name="email" value={formData.email} onChange={handleChange} required />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input className="form-input" type="password" name="password" value={formData.password} onChange={handleChange} required />
-                </label>
-                <br />
-                <button type="submit" className="form-button" >Login</button>
-            </form>
-            <p className="form-footer">
-                Don't have an account? <Link to="/signup" className="signup-link">Sign up</Link>
-            </p>
+        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+            <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md -mt-64">
+                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 mb-2" htmlFor="email">Email:</label>
+                        <input
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 mb-2" htmlFor="password">Password:</label>
+                        <input
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            type="password"
+                            name="password"
+                            id="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+                    >
+                        Login
+                    </button>
+                </form>
+                <p className="mt-4 text-center text-gray-600">
+                    Don't have an account?{' '}
+                    <Link to="/signup" className="text-blue-500 hover:underline">Sign up</Link>
+                </p>
+            </div>
         </div>
     );
 };
 
 export default Login;
+
 
 
 

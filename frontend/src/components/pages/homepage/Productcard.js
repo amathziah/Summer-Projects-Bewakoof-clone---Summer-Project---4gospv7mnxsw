@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
         />
     </div>
     <div className="p-4">
-        <div className="mt-4 text-lg font-semibold text-gray-900">{product.name}</div>
+        <div className="mt-4 text-blue-50 font-semibold text-gray-900">{product.name}</div>
         <p className="mt-2 text-red-600 font-bold hover:text-blue-600">{product.price} INR</p>
     </div>
 </div>

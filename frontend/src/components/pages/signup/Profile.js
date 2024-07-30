@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Profile.css'; // Import the CSS file
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -48,32 +47,39 @@ const Profile = () => {
   };
 
   return (
-    <div className="containerprofile">
+    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
       {user ? (
         <form onSubmit={handleUpdateProfile}>
-          <h2>Profile</h2>
-          <p>Username: {user.username}</p>
-          <div>
-            <label>Email:</label>
+          <h2 className="text-2xl font-bold mb-4">Profile</h2>
+          <p className="text-lg mb-2">Username: {user.username}</p>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email:</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             />
           </div>
-          <div>
-            <label>Password:</label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password:</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
             />
           </div>
-          <button type="submit">Update Profile</button>
-          {message && <p className="message">{message}</p>}
+          <button
+            type="submit"
+            className="w-full p-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none"
+          >
+            Update Profile
+          </button>
+          {message && <p className="text-sm text-red-500 mt-4">{message}</p>}
         </form>
       ) : (
-        <p className="loading">Login to see this section</p>
+        <p className="text-center text-gray-600">Login to see this section</p>
       )}
     </div>
   );

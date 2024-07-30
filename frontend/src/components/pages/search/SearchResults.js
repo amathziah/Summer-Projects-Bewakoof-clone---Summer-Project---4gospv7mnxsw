@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-//import './SearchProducts.css';
 
 const SearchProducts = () => {
     const [products, setProducts] = useState([]);
@@ -11,6 +10,7 @@ const SearchProducts = () => {
         color: '',
         ratings: 0,
         subCategory: '',
+        sortOrder: 'default' // New filter for sorting order
     });
     const projectId = 'f104bi07c490';
     const location = useLocation();
@@ -62,16 +62,29 @@ const SearchProducts = () => {
         });
     };
 
+    const handleSortChange = (e) => {
+        setFilters({ ...filters, sortOrder: e.target.value });
+    };
+
     useEffect(() => {
         const applyFilters = () => {
-            setFilteredProducts(products.filter(product => {
+            let updatedProducts = products.filter(product => {
                 return (
                     (filters.gender === '' || product.gender === filters.gender) &&
                     (filters.color === '' || product.color === filters.color) &&
                     (filters.ratings === 0 || product.ratings >= filters.ratings) &&
                     (filters.subCategory === '' || product.subCategory === filters.subCategory)
                 );
-            }));
+            });
+
+            // Apply sorting
+            if (filters.sortOrder === 'priceLowToHigh') {
+                updatedProducts.sort((a, b) => a.price - b.price);
+            } else if (filters.sortOrder === 'priceHighToLow') {
+                updatedProducts.sort((a, b) => b.price - a.price);
+            }
+
+            setFilteredProducts(updatedProducts);
         };
 
         applyFilters();
@@ -113,7 +126,7 @@ const SearchProducts = () => {
                             <option value={5}>5</option>
                         </select>
                     </label>
-                    <label className="block">
+                    <label className="block mb-4">
                         SubCategory:
                         <input
                             type="text"
@@ -125,8 +138,18 @@ const SearchProducts = () => {
                         />
                     </label>
                 </div>
-                <div className="w-full md:w-3/4 p-4">
-                    <img src="https://static.vecteezy.com/system/resources/previews/006/388/767/non_2x/women-happy-with-shopping-on-mobile-pay-by-credit-card-shopping-online-in-an-online-store-on-a-website-or-mobile-application-concept-loves-shopping-design-for-sale-banner-digital-marketing-vector.jpg" className="w-full rounded-lg shadow-md" alt="Shopping Banner" />
+                <div className="w-full md:w-3/4 flex flex-col justify-between p-4">
+                    <img src="https://static.vecteezy.com/system/resources/previews/006/388/767/non_2x/women-happy-with-shopping-on-mobile-pay-by-credit-card-shopping-online-in-an-online-store-on-a-website-or-mobile-application-concept-loves-shopping-design-for-sale-banner-digital-marketing-vector.jpg" className="w-full rounded-lg shadow-md mb-4" alt="Shopping Banner" />
+                    <div className="flex justify-end">
+                        <label className="block mb-4">
+                            Sort by:
+                            <select name="sortOrder" value={filters.sortOrder} onChange={handleSortChange} className="block w-full mt-2 p-2 border rounded-md">
+                                <option value="default">Default</option>
+                                <option value="priceLowToHigh">Price: Low to High</option>
+                                <option value="priceHighToLow">Price: High to Low</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </div>
             {loading ? (
@@ -161,6 +184,7 @@ const SearchProducts = () => {
 };
 
 export default SearchProducts;
+
 
 
 
